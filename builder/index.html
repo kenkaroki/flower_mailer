@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build a flower message</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1 id="main_header">Make them a flower message they'll never forget</h1>
+<div id="form-div">
+    <form id="form" method="post">
+        <h2>Information we need to send a flower message</h2>
+
+        <input type="text" id="flower_color" name="flower_color" placeholder="Flower color">
+        <input type="text" id="recipient_name" name="recipient_name" placeholder="Recipient name">
+        <input type="text" id="sender_name" name="sender_name" placeholder="Sender name">
+        <input type="text" id="message" name="message" placeholder="Message">
+
+        <button type="submit" id="submit">Make flower message</button>
+    </form>
+</div>
+
+<div id="succesive_div">
+    <div id="success_create_element">
+        <h1 id="succes_header">Congrats you made a flower message</h1>
+        <p>Send them the link below</p>
+        <p id="url"></p>
+        <button id="copyBtn">Copy link</button>
+    </div>
+</div>
+
+<script src="index.js"></script>
+
+</body>
+</html>
