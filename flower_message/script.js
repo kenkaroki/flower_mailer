@@ -1,8 +1,28 @@
 const garden = document.getElementById("garden");
 const card = document.getElementById("card");
 
+let flowers = [];
+
 /* =========================
-   🌸 FLOWER COUNT (adaptive)
+   🌸 URL VARIABLES
+========================= */
+function updateVariables() {
+  const params = new URLSearchParams(window.location.search);
+
+  const hue = params.get("hue") || "330";
+  const recipient = params.get("recipient") || "Unknown";
+  const sender = params.get("sender") || "Someone";
+  const message = params.get("message") || "No message provided";
+
+  document.getElementById("recipient_name").innerText = recipient;
+  document.getElementById("message").innerText = message;
+  document.getElementById("sender").innerText = `— ${sender}`;
+
+  document.documentElement.style.setProperty("--flower-hue", hue);
+}
+
+/* =========================
+   🌸 FLOWER COUNT
 ========================= */
 function getFlowerCount() {
   const area = window.innerWidth * window.innerHeight;
@@ -15,7 +35,7 @@ function getFlowerCount() {
 const FLOWER_COUNT = getFlowerCount();
 
 /* =========================
-   🌸 SAFE GRID SPACING
+   🌸 GRID SETUP
 ========================= */
 const MIN_SPACING = 70;
 
@@ -47,6 +67,9 @@ for (let r = 0; r < rows; r++) {
     flower.style.left = `${x}px`;
     flower.style.top = `${y}px`;
 
+    // store for animation (faster + safer)
+    flower.dataset.top = y;
+
     const stem = document.createElement("span");
     stem.classList.add("stem");
 
@@ -63,10 +86,10 @@ for (let r = 0; r < rows; r++) {
   }
 }
 
-const flowers = document.querySelectorAll(".flower");
+flowers = document.querySelectorAll(".flower");
 
 /* =========================
-   🌬️ CINEMATIC WIND + STRENGTH
+   🌬️ WIND SYSTEM
 ========================= */
 let gust = 0;
 let gustTarget = 0;
@@ -80,14 +103,14 @@ function animateWind(t) {
 
   gust += (gustTarget - gust) * 0.01;
 
-  // 🌬️ compute global wind strength for glow
   let avgWind = 0;
 
   flowers.forEach((flower) => {
     const factor = parseFloat(flower.dataset.windFactor);
     const phase = parseFloat(flower.dataset.phase);
+    const top = parseFloat(flower.dataset.top || 0);
 
-    const wave = Math.sin(time + parseFloat(flower.style.top) * 0.01) * 10;
+    const wave = Math.sin(time + top * 0.01) * 10;
     const gustForce = gust * 25 * factor;
     const flutter = Math.sin(t * 0.002 + phase) * 1.5;
 
@@ -99,7 +122,6 @@ function animateWind(t) {
     avgWind += Math.abs(gustForce) * 0.01;
   });
 
-  // 🌬️ update CSS wind strength variable (for card glow)
   document.documentElement.style.setProperty(
     "--wind-strength",
     Math.min(avgWind / FLOWER_COUNT, 1),
@@ -114,8 +136,6 @@ requestAnimationFrame(animateWind);
    🌸 BLOOM + CARD
 ========================= */
 function startAnimation() {
-  const flowers = document.querySelectorAll(".flower");
-
   setTimeout(() => {
     flowers.forEach((flower) => {
       setTimeout(() => {
@@ -129,4 +149,10 @@ function startAnimation() {
   }, 1000);
 }
 
-window.addEventListener("load", startAnimation);
+/* =========================
+   🚀 INIT
+========================= */
+window.addEventListener("load", () => {
+  updateVariables();
+  startAnimation();
+});

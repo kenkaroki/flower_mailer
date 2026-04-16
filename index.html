@@ -1,26 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>For You ❤️</title>
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flower Messages</title>
+
+<style>
+    /* ======================
+       BASE (mobile-first)
+    =======================*/
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #ffe6f0, #e6f7ff);
+        overflow: hidden;
+        position: relative;
+        padding: 20px;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 420px;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.75);
+        padding: 24px;
+        border-radius: 18px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        backdrop-filter: blur(10px);
+        z-index: 2;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+        color: #d63384;
+        margin-bottom: 10px;
+    }
+
+    p {
+        font-size: 1rem;
+        color: #444;
+        line-height: 1.6;
+    }
+
+    button {
+        margin-top: 18px;
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 30px;
+        background: linear-gradient(135deg, #ff6fa1, #ff3d7f);
+        color: white;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: 0.3s ease;
+        box-shadow: 0 8px 20px rgba(255, 61, 127, 0.25);
+    }
+
+    button:hover {
+        transform: scale(1.03);
+    }
+
+    button:active {
+        transform: scale(0.97);
+    }
+
+    /* ======================
+       FLOATING FLOWERS
+    =======================*/
+    .flower {
+        position: absolute;
+        font-size: 20px;
+        opacity: 0.7;
+        animation: floatUp linear infinite;
+        z-index: 1;
+        user-select: none;
+    }
+
+    @keyframes floatUp {
+        0% {
+            transform: translateY(100vh) rotate(0deg);
+            opacity: 0;
+        }
+        10% {
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-10vh) rotate(360deg);
+            opacity: 0;
+        }
+    }
+
+    /* ======================
+       DESKTOP ENHANCEMENT
+    =======================*/
+    @media (min-width: 768px) {
+        .container {
+            max-width: 500px;
+            padding: 40px;
+        }
+
+        h1 {
+            font-size: 2.3rem;
+        }
+
+        button {
+            font-size: 1.1rem;
+        }
+    }
+</style>
 </head>
+
 <body>
 
-  <div id="garden"></div>
+<!-- Floating flowers (emoji-based, lightweight) -->
+<span class="flower" style="left:10%; animation-duration:8s; animation-delay:0s;">🌸</span>
+<span class="flower" style="left:25%; animation-duration:10s; animation-delay:2s;">🌺</span>
+<span class="flower" style="left:40%; animation-duration:7s; animation-delay:1s;">🌷</span>
+<span class="flower" style="left:60%; animation-duration:11s; animation-delay:3s;">🌸</span>
+<span class="flower" style="left:75%; animation-duration:9s; animation-delay:1.5s;">🌼</span>
+<span class="flower" style="left:90%; animation-duration:12s; animation-delay:2.5s;">🌺</span>
 
-  <!-- Card -->
-  <div id="card">
-    <div class="card-inner">
-      <div class="card-front">💌</div>
-      <div class="card-inside">
-        <h2>Stephanie ❤️</h2>
-        <p>You make everything better.</p>
-      </div>
-    </div>
-  </div>
+<div class="container">
+    <h1>Flower Messages 🌸</h1>
 
-  <script src="script.js"></script>
+    <p>
+        Express your love to them by sending flower messages.<br>
+        You can never go wrong with a flower message 💌
+    </p>
+
+    <button id="navigate">Send them a flower message today</button>
+</div>
+
+<script src="index.js"></script>
 </body>
 </html>
