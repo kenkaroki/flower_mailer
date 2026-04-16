@@ -1,8 +1,10 @@
-/* ===== GLOBAL COLOR CONTROL ===== */
 :root {
-  --flower-hue: 200; /* CHANGE THIS */
+  --flower-hue: 330;
   --flower-sat: 80%;
   --flower-light: 60%;
+
+  /* 🌬️ wind-driven glow strength */
+  --wind-strength: 0;
 }
 
 body {
@@ -12,7 +14,7 @@ body {
   font-family: Arial, sans-serif;
 }
 
-/* Garden */
+/* ===== GARDEN ===== */
 #garden {
   position: fixed;
   width: 100%;
@@ -22,32 +24,30 @@ body {
 /* ===== FLOWER ===== */
 .flower {
   position: absolute;
+  transform-origin: bottom center;
+  will-change: transform;
 }
 
-/* Center */
+/* center */
 .flower::before {
   content: "";
   position: absolute;
   width: 100%;
   height: 100%;
+  border-radius: 50%;
+  transition: all 3s ease;
 
   background: radial-gradient(
     circle,
-    hsl(var(--flower-hue), var(--flower-sat), 75%) 0%,
-    hsl(var(--flower-hue), var(--flower-sat), var(--flower-light)) 60%,
-    hsl(var(--flower-hue), var(--flower-sat), 40%) 100%
+    hsl(var(--flower-hue), var(--flower-sat), 75%),
+    hsl(var(--flower-hue), var(--flower-sat), var(--flower-light)),
+    hsl(var(--flower-hue), var(--flower-sat), 40%)
   );
 
-  border-radius: 50%;
-  transform: scale(1);
-  transition: all 3s ease;
-
-  box-shadow:
-    0 0 10px hsl(var(--flower-hue), var(--flower-sat), 70%),
-    0 0 20px hsl(var(--flower-hue), var(--flower-sat), 50%);
+  box-shadow: 0 0 15px rgba(255,182,193,0.6);
 }
 
-/* Petals */
+/* petals */
 .flower::after {
   content: "";
   position: absolute;
@@ -55,32 +55,32 @@ body {
   height: 30%;
   top: 35%;
   left: 35%;
-  background: hsl(var(--flower-hue), var(--flower-sat), var(--flower-light));
   opacity: 0;
+  background: hsl(var(--flower-hue), var(--flower-sat), 55%);
 }
 
-/* Bloom */
+/* bloom */
 .flower.bloom::before {
   transform: scale(0.3);
 }
 
 .flower.bloom::after {
   opacity: 1;
+  transition: all 3s ease;
 
   box-shadow:
-    0 -30px 0 5px hsl(var(--flower-hue), var(--flower-sat), 65%),
-    20px -20px 0 5px hsl(calc(var(--flower-hue) + 5), var(--flower-sat), 60%),
-    30px 0 0 5px hsl(calc(var(--flower-hue) + 10), var(--flower-sat), 55%),
-    20px 20px 0 5px hsl(calc(var(--flower-hue) + 5), var(--flower-sat), 60%),
-    0 30px 0 5px hsl(var(--flower-hue), var(--flower-sat), 65%),
-    -20px 20px 0 5px hsl(calc(var(--flower-hue) - 5), var(--flower-sat), 60%),
-    -30px 0 0 5px hsl(calc(var(--flower-hue) - 10), var(--flower-sat), 55%),
-    -20px -20px 0 5px hsl(calc(var(--flower-hue) - 5), var(--flower-sat), 60%),
-    15px -30px 0 5px hsl(calc(var(--flower-hue) + 15), var(--flower-sat), 50%),
-    -15px 30px 0 5px hsl(calc(var(--flower-hue) - 15), var(--flower-sat), 50%);
+    0 -30px 0 5px hsl(var(--flower-hue), 80%, 65%),
+    20px -20px 0 5px hsl(calc(var(--flower-hue) + 5), 80%, 60%),
+    30px 0 0 5px hsl(calc(var(--flower-hue) + 10), 80%, 55%),
+    20px 20px 0 5px hsl(calc(var(--flower-hue) + 5), 80%, 60%),
+    0 30px 0 5px hsl(var(--flower-hue), 80%, 65%),
+    -20px 20px 0 5px hsl(calc(var(--flower-hue) - 5), 80%, 60%),
+    -30px 0 0 5px hsl(calc(var(--flower-hue) - 10), 80%, 55%),
+    -20px -20px 0 5px hsl(calc(var(--flower-hue) - 5), 80%, 60%),
+    15px -30px 0 5px hsl(calc(var(--flower-hue) + 15), 80%, 55%),
+    -15px 30px 0 5px hsl(calc(var(--flower-hue) - 15), 80%, 55%);
 
   transform: rotate(45deg);
-  transition: all 3s ease;
   filter: drop-shadow(0 6px 12px rgba(0,0,0,0.6));
 }
 
@@ -94,7 +94,6 @@ body {
   height: 0;
   background: linear-gradient(to bottom, #22c55e, #14532d);
   border-radius: 2px;
-  box-shadow: 0 0 6px rgba(0,0,0,0.4);
   transition: height 3s ease;
 }
 
@@ -111,57 +110,98 @@ body {
   opacity: 0;
   perspective: 1000px;
   z-index: 10;
+
+  border-radius: 18px;
+  padding: 10px;
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+
+  /* 🌬️ wind reactive glow */
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.4),
+    0 0 calc(10px + var(--wind-strength) * 40px)
+      hsl(var(--flower-hue), 80%, 60%);
 }
 
-#card.show {
-  opacity: 1;
-  transform: translateX(-50%) scale(1);
-  transition: 1s ease;
-}
-
+/* 🌸 CARD BASE BACKGROUND */
 .card-inner {
   width: 240px;
   height: 150px;
   transform-style: preserve-3d;
   transition: transform 1.5s;
+
+  border-radius: 18px;
 }
 
-#card.show .card-inner {
-  transform: rotateY(180deg);
-}
-
+/* FRONT + INSIDE BASE */
 .card-front,
 .card-inside {
   position: absolute;
   width: 100%;
   height: 100%;
   border-radius: 14px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   backface-visibility: hidden;
+
+  background: linear-gradient(135deg, #ff4d6d, #ff85a1);
+  transition: background 0.4s ease, box-shadow 0.4s ease;
 }
 
-.card-front {
-  background: linear-gradient(135deg, pink, hotpink);
-  font-size: 2rem;
-}
-
+/* INSIDE FLIP SIDE */
 .card-inside {
+  transform: rotateY(180deg);
   background: white;
   color: black;
-  transform: rotateY(180deg);
   flex-direction: column;
   padding: 12px;
   text-align: center;
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 600px) {
-  .flower { transform: scale(0.7); }
-  .card-inner { width: 90vw; height: 160px; }
+/* SHOW CARD */
+#card.show {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
 }
 
-@media (min-width: 1400px) {
-  .flower { transform: scale(1.2); }
+/* FLIP */
+#card.show .card-inner {
+  transform: rotateY(180deg);
+}
+
+#card .card-front,
+#card .card-inside {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--flower-hue), 85%, 85%),
+    hsl(calc(var(--flower-hue) + 20), 85%, 75%)
+  );
+}
+
+/* 🌸 HOVER (FIXED — applies to whole card) */
+#card:hover .card-front,
+#card:hover .card-inside {
+  
+
+  box-shadow:
+    0 0 20px hsl(var(--flower-hue), 80%, 60%),
+    0 0 50px hsl(var(--flower-hue), 80%, 50%),
+    0 0 80px hsl(var(--flower-hue), 80%, 40%),
+    0 0 calc(20px + var(--wind-strength) * 60px)
+      hsl(var(--flower-hue), 90%, 65%);
+}
+
+/* CARD HOVER SCALE (ONLY ON PARENT) */
+#card:hover {
+  transform: translateX(-50%) scale(1.05);
+}
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .card-inner {
+    width: 90vw;
+    height: 160px;
+  }
 }
