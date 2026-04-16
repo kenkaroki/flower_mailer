@@ -53,6 +53,32 @@ function generateLink(formData) {
   return `${location.origin}/flower_messages/messages/?data=${encodeURIComponent(encoded)}`;
 }
 
+function share(url) {
+  
+  // Native share (best on mobile)
+  document
+    .getElementById("shareNativeBtn")
+    .addEventListener("click", async () => {
+      const link = url;
+
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: "Flower Message 🌸",
+            text: "I made you something special",
+            url: link,
+          });
+        } catch (err) {
+          console.log("Share cancelled");
+        }
+      } else {
+        alert("Native share not supported on this browser.");
+      }
+    });
+}
+
+
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -61,6 +87,7 @@ form.addEventListener("submit", (e) => {
 
   urlText.textContent = link;
   navigator.clipboard.writeText(link);
+  share(link)
 
   formDiv.style.display = "none";
   successDiv.style.display = "flex";
