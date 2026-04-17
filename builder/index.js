@@ -5,8 +5,7 @@ const urlText = document.getElementById("url");
 
 function getHue(color) {
   const ctx = document.createElement("canvas").getContext("2d");
-
-  ctx.fillStyle = color;
+  ctx.fillStyle = color.toLowerCase();
   const normalized = ctx.fillStyle;
 
   const temp = document.createElement("div");
