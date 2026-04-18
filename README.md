@@ -7,9 +7,7 @@
 ## 🔗 Live Demo
 
 👉 **Visit the app:**
-**https://your-site-url.com**
-
-*(Replace with your actual deployed URL — GitHub Pages / Netlify / Vercel)*
+**https://kenkaroki.github.io/flower_messages/**
 
 ---
 
@@ -128,10 +126,10 @@ const url = `${location.origin}/messages?data=${encoded}`;
 
 ```bash
 # Clone the repo
-git clone https://github.com/your-username/flower-message-app.git
+git clone https://github.com/kenkaroki/flower_messages.git
 
 # Open in browser
-cd flower-message-app
+cd flower_messages
 open index.html
 ```
 
@@ -150,14 +148,13 @@ Or just open `/builder/index.html` directly.
 Your site will be live at:
 
 ```
-https://your-username.github.io/flower-message-app/
+https://<username>.github.io/flower_messages/
 ```
 
 ---
 
 ## ⚠️ Limitations
 
-* URL length limits (long messages may break)
 * Base64 ≠ encryption (data is easily decoded)
 * No persistence (no database)
 * No editing after link generation
