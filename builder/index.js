@@ -47,7 +47,7 @@ function generateLink(formData) {
     message: formData.get("message"),
   };
 
-  const encoded = btoa(JSON.stringify(payload));
+  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
 
   return `${location.origin}/flower_messages/messages/?data=${encodeURIComponent(encoded)}`;
 }

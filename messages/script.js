@@ -18,7 +18,7 @@ function updateVariables() {
   // 🔐 PRIORITY: encoded data
   if (encoded) {
     try {
-      const decoded = JSON.parse(atob(encoded));
+      const decoded = JSON.parse(decodeURIComponent(escape(atob(encoded))));
 
       hue = decoded.hue ?? hue;
       recipient = decoded.recipient ?? recipient;
